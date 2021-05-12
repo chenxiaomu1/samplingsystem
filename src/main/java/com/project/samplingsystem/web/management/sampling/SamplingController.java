@@ -3,6 +3,7 @@ package com.project.samplingsystem.web.management.sampling;
 import com.project.samplingsystem.config.permission.NBAuth;
 import com.project.samplingsystem.dao.repository.SamplingRepository;
 import com.project.samplingsystem.model.entity.Sampling;
+import com.project.samplingsystem.model.entity.permission.NBSysResource;
 import com.project.samplingsystem.model.pojo.framework.Pagination;
 import com.project.samplingsystem.web.BaseController;
 import org.apache.commons.lang3.StringUtils;
@@ -38,17 +39,25 @@ public class SamplingController extends BaseController {
         this.samplingRepository = samplingRepository;
     }
 
+
+    @RequestMapping(value = "/page")
+    @ResponseBody
+    @NBAuth(value = "management:sampling:page", remark = "采样页面列表", group = NBAuth.Group.ROUTER, type = NBSysResource.ResType.NAV_LINK)
+    public String Sample() {
+        return "/management/sampling/list";
+    }
+
     @RequestMapping(value = "/list")
     @ResponseBody
     @NBAuth(value = "management:sampling:list", remark = "采样页面分页数据", group = NBAuth.Group.AJAX)
-    public List<Sampling> listSampling(Pagination<Sampling> catePage, @RequestParam(value = "samplingName") String samplingName) {
+    public List<Sampling> listSampling(Pagination<Sampling> catePage, @RequestParam(value = "sampleName") String sampleName) {
         Pageable pageable = PageRequest.of(catePage.getPage() - 1, catePage.getLimit());
         List<Sampling> samplings = samplingRepository.findAll(new Specification<Sampling>() {
             @Override
             public Predicate toPredicate(Root<Sampling> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 List<Predicate> predicates = new ArrayList<>();
-                if (StringUtils.isNotBlank(samplingName)) {
-                    predicates.add(cb.equal(root.get("sampleName"), samplingName));
+                if (StringUtils.isNotBlank(sampleName)) {
+                    predicates.add(cb.equal(root.get("sampleName"), sampleName));
                 }
                 return query.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
             }
