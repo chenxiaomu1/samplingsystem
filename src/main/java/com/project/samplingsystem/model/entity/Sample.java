@@ -1,5 +1,6 @@
 package com.project.samplingsystem.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -59,6 +60,8 @@ public class Sample implements Serializable {
 
     @Column(columnDefinition = "datetime comment '采样时间'")
     @Builder.Default
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date samplingTime = new Date();
 
 
