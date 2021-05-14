@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import static java.time.LocalDateTime.now;
 
@@ -58,7 +59,7 @@ public class Sample implements Serializable {
 
     @Column(columnDefinition = "datetime comment '采样时间'")
     @Builder.Default
-    private LocalDateTime samplingTime = now();
+    private Date samplingTime = new Date();
 
 
 //    @ManyToOne

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import static java.lang.Boolean.TRUE;
 import static java.time.LocalDateTime.now;
@@ -49,8 +50,9 @@ public class NBSysUser implements Serializable {
 
     @Column(updatable = false, name = "[create]")
     @Builder.Default
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime create = now();
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date create = new Date();
 
     @Column(length = 20)
     private String qqNum;
@@ -65,7 +67,7 @@ public class NBSysUser implements Serializable {
     @Builder.Default
     private Long defaultRoleId = 2L;
 
-    @Column(nullable = false, length = 1, columnDefinition = "tinyint(1)")
+    @Column(length = 1, columnDefinition = "tinyint(1)")
     @Builder.Default
     private Boolean enable = TRUE;
 

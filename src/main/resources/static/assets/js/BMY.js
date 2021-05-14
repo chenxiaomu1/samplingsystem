@@ -82,7 +82,7 @@ var BMY = {
                 return t;
             }
         } else {
-            return "1993-09-16T08:59:00.166";
+            return date;
         }
     }
 

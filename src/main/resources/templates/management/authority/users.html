@@ -76,16 +76,16 @@
         <div class="layui-row">
             <div class="layui-form">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">用户号</label>
+                    <label class="layui-form-label">用户账号</label>
                     <div class="layui-input-block">
-                        <input type="text" name="userId" required lay-verify="required" placeholder="请输入用户号"
+                        <input type="text" name="accountNo" required lay-verify="required" placeholder="请输入用户账号"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">用户姓名</label>
                     <div class="layui-input-block">
-                        <input type="text" name="userName" required lay-verify="required" placeholder="请输入用户姓名"
+                        <input type="text" name="username" required lay-verify="required" placeholder="请输入用户姓名"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -96,6 +96,17 @@
                                placeholder="请输入密码" autocomplete="off" class="layui-input">
                     </div>
                 </div>
+<!--                <div class="layui-form-item">-->
+<!--                    <label class="layui-form-label">所属角色</label>-->
+<!--                    <div class="layui-input-block">-->
+<!--                        <select name="userRoleId" lay-verify="required" lay-search>-->
+<!--                            <option value="">请选择</option>-->
+<!--                            <option th:each="cate,cateStat:${cateList}" th:value="${cate.id}"-->
+<!--                                    th:text="${cate.cnName}"-->
+<!--                                    th:selected="${cate.id==editArticle.cateId}"></option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                </div>-->
             </div>
         </div>
     </div>
@@ -132,11 +143,11 @@
                     {title: ' ', toolbar: '#radioCheck', width: 50},
                     {field: 'accountNo', title: '用户账号', sort: true,}
                     ,{field: 'username', title: '用户姓名', sort: true,}
-                    , {
-                    field: 'avatar', title: "头像", width: 60, templet: function (d) {
-                        return '<img  src="' + d.avatar + '" style="width: 30px;height: 30px;">';
-                    }
-                }
+                //     , {
+                //     field: 'avatar', title: "头像", width: 60, templet: function (d) {
+                //         return '<img  src="' + d.avatar + '" style="width: 30px;height: 30px;">';
+                //     }
+                // }
                     , {
                     field: 'create', title: '注册日期', sort: true, templet: function (d) {
                         return BMY.dateFormatter(d.create);
@@ -252,11 +263,11 @@
                 , area: '480px'
             }, function () {
                 BMY.ajax(BMY.url.prefix + "/sample/createUser", {
-                    name: $("input.layui-input[name=cateName]").val()
-                    , cnName: $("input.layui-input[name=cateCnName]").val()
-                    , fontIcon: $("input.layui-input[name=cateIcon]").val()
+                    username: $("input.layui-input[name=username]").val()
+                    , accountNo: $("input.layui-input[name=accountNo]").val()
+                    , password: $("input.layui-input[name=password]").val()
                 }, function (json) {
-                    BMY.okHandle(json, index, "cate-table");
+                    BMY.okHandle(json, index, "user-table");
                 })
             });
         });

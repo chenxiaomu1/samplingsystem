@@ -1,6 +1,7 @@
 package com.project.samplingsystem.service.users;
 
 import com.project.samplingsystem.model.entity.permission.NBSysUser;
+import com.project.samplingsystem.model.pojo.framework.NBR;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -37,4 +38,9 @@ public interface UsersService {
      * @return
      */
     void updateUserRolesStr(Long userId, String roleIds);
+
+    /**
+     * 管理员新增用户
+     */
+    public NBR createUser(NBSysUser user);
 }

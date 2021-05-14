@@ -3,9 +3,11 @@ package com.project.samplingsystem.service.users;
 import com.project.samplingsystem.dao.repository.RoleRepository;
 import com.project.samplingsystem.dao.repository.UserRepository;
 import com.project.samplingsystem.dao.repository.UserRoleRepository;
+import com.project.samplingsystem.model.constant.SampleSystemConstant;
 import com.project.samplingsystem.model.entity.permission.NBSysUser;
 import com.project.samplingsystem.model.entity.permission.NBSysUserRole;
 import com.project.samplingsystem.model.entity.permission.pk.UserRoleKey;
+import com.project.samplingsystem.model.pojo.framework.NBR;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 
 /**
  * created by Wuwenbin on 2018/7/29 at 1:06
@@ -80,6 +83,24 @@ public class UsersServiceImpl implements UsersService {
             urk.setRoleId(rId);
             NBSysUserRole ur = NBSysUserRole.builder().pk(urk).build();
             userRoleRepository.saveAndFlush(ur);
+        }
+    }
+
+    @Override
+    public NBR createUser(NBSysUser user) {
+        if (org.springframework.util.StringUtils.isEmpty(user.getPassword())) {
+            return NBR.error("密码格式错误！");
+        }
+        else {
+            NBSysUser u = userRepository.findByAccountNo(user.getAccountNo());
+            if (u != null) {
+                return NBR.error("用户账号已存在！");
+            } else {
+                user.setEnable(true);
+                user.setCreate(new Date());
+                userRepository.save(user);
+                return NBR.ok("新建用户成功！");
+            }
         }
     }
 }

@@ -42,6 +42,14 @@ public interface UserRepository extends JpaRepository<NBSysUser, Long> {
     NBSysUser findByUsername(String username);
 
     /**
+     * 根据用户账号查找用户对象
+     *
+     * @param accountNo
+     * @return
+     */
+    NBSysUser findByAccountNo(String accountNo);
+
+    /**
      * 更新用户状态信息
      *
      * @param userId

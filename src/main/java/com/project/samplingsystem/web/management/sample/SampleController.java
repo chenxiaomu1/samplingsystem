@@ -1,11 +1,17 @@
 package com.project.samplingsystem.web.management.sample;
 
+import cn.hutool.core.util.StrUtil;
+import com.google.code.kaptcha.Constants;
 import com.project.samplingsystem.config.permission.NBAuth;
 import com.project.samplingsystem.dao.repository.SamplingRepository;
+import com.project.samplingsystem.model.constant.SampleSystemConstant;
 import com.project.samplingsystem.model.entity.Sample;
 import com.project.samplingsystem.model.entity.permission.NBSysResource;
+import com.project.samplingsystem.model.entity.permission.NBSysUser;
 import com.project.samplingsystem.model.pojo.framework.LayuiTable;
+import com.project.samplingsystem.model.pojo.framework.NBR;
 import com.project.samplingsystem.model.pojo.framework.Pagination;
+import com.project.samplingsystem.service.users.UsersService;
 import com.project.samplingsystem.web.BaseController;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +44,9 @@ public class SampleController extends BaseController {
     private final SamplingRepository samplingRepository;
 
     @Autowired
+    private UsersService usersService;
+
+    @Autowired
     public SampleController(SamplingRepository samplingRepository) {
         this.samplingRepository = samplingRepository;
     }
@@ -66,6 +75,12 @@ public class SampleController extends BaseController {
         },pageable);
 
         return layuiTable(samples, pageable);
+    }
+
+    @RequestMapping(value = "/createUser")
+    @ResponseBody
+    public NBR createUser(NBSysUser user){
+        return usersService.createUser(user);
     }
 
 }
