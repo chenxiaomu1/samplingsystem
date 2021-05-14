@@ -18,11 +18,11 @@ import static java.time.LocalDateTime.now;
  */
 @Data
 @Entity
-@Table(name = "tb_sampling")
+@Table(name = "tb_sample")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Sampling implements Serializable {
+public class Sample implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

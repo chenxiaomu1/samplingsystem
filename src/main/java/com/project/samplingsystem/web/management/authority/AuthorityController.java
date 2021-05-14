@@ -5,7 +5,7 @@ import com.project.samplingsystem.dao.repository.MenuRepository;
 import com.project.samplingsystem.dao.repository.ResourceRepository;
 import com.project.samplingsystem.dao.repository.RoleRepository;
 import com.project.samplingsystem.dao.repository.RoleResourceRepository;
-import com.project.samplingsystem.model.constant.NoteBlogV4;
+import com.project.samplingsystem.model.constant.SampleSystemConstant;
 import com.project.samplingsystem.model.entity.permission.NBSysMenu;
 import com.project.samplingsystem.model.entity.permission.NBSysResource;
 import com.project.samplingsystem.model.entity.permission.NBSysRole;
@@ -152,7 +152,7 @@ public class AuthorityController extends BaseController {
     @NBAuth(value = "permission:menu:add", remark = "添加角色菜单界面", group = NBAuth.Group.ROUTER)
     public String addMenu(Model model, Long roleId, String parentId) {
         if (StringUtils.isEmpty(roleId)) {
-            return NoteBlogV4.Session.ERROR_ROUTER;
+            return SampleSystemConstant.Session.ERROR_ROUTER;
         }
         model.addAttribute("roleId", roleId);
         model.addAttribute("parentId", parentId);
@@ -168,7 +168,7 @@ public class AuthorityController extends BaseController {
     @NBAuth(value = "permission:menu:edit", remark = "修改角色菜单界面", group = NBAuth.Group.ROUTER)
     public String addMenu(Model model, Long menuId, Long roleId) {
         if (StringUtils.isEmpty(menuId) || StringUtils.isEmpty(roleId)) {
-            return NoteBlogV4.Session.ERROR_ROUTER;
+            return SampleSystemConstant.Session.ERROR_ROUTER;
         }
         List<Long> resIds = roleResourceRepository.findResourceIdByRoleId(roleId);
         if (resIds != null && resIds.size() > 0) {

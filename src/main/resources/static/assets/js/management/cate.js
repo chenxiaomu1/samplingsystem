@@ -11,7 +11,7 @@ layui.use(['table', 'element'], function () {
 
     table.render({
         elem: '#cate-table'
-        , url: BMY.url.prefix + '/dictionary/cate/list?samplingName=' + $("input.layui-input[name=samplingName]").val()
+        , url: BMY.url.prefix + '/dictionary/cate/list'
         , page: true
         , limit: 12
         , height: 'full'

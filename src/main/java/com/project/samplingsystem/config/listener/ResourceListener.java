@@ -5,7 +5,7 @@ import com.project.samplingsystem.config.application.NBContext;
 import com.project.samplingsystem.config.permission.NBAuth;
 import com.project.samplingsystem.dao.repository.ParamRepository;
 import lombok.extern.slf4j.Slf4j;
-import com.project.samplingsystem.model.constant.NoteBlogV4;
+import com.project.samplingsystem.model.constant.SampleSystemConstant;
 import com.project.samplingsystem.model.entity.NBParam;
 import com.project.samplingsystem.model.entity.permission.NBSysResource;
 import org.springframework.aop.framework.AopProxyUtils;
@@ -25,8 +25,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static com.project.samplingsystem.model.constant.NoteBlogV4.Init.INIT_NOT;
-import static com.project.samplingsystem.model.constant.NoteBlogV4.Init.INIT_STATUS;
+import static com.project.samplingsystem.model.constant.SampleSystemConstant.Init.INIT_NOT;
+import static com.project.samplingsystem.model.constant.SampleSystemConstant.Init.INIT_STATUS;
 
 /**
  * 资源监听器
@@ -64,7 +64,7 @@ public class ResourceListener implements ApplicationListener<ContextRefreshedEve
             log.info("「个人博客」App 正在启动中，请稍后...");
             List<Map<String, Object>> resources = new ArrayList<>(50);
             //以防万一，先移除以前的资源
-            context.removeApplicationObj(NoteBlogV4.Init.MASTER_RESOURCES);
+            context.removeApplicationObj(SampleSystemConstant.Init.MASTER_RESOURCES);
             Map<String, Object> beans = event.getApplicationContext().getBeansWithAnnotation(Controller.class);
             beans.putAll(event.getApplicationContext().getBeansWithAnnotation(RestController.class));
             int cnt = 0;
@@ -107,7 +107,7 @@ public class ResourceListener implements ApplicationListener<ContextRefreshedEve
                 }
             }
             log.info("扫描资源完毕，共计处理资源数目：[{}]，等待下一步插入数据库赋给网站管理员角色..", cnt);
-            context.setApplicationObj(NoteBlogV4.Init.MASTER_RESOURCES, resources);
+            context.setApplicationObj(SampleSystemConstant.Init.MASTER_RESOURCES, resources);
 
         }
 

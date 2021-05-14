@@ -7,7 +7,7 @@ import com.project.samplingsystem.config.application.NBContext;
 import com.project.samplingsystem.config.permission.NBAuth;
 import com.project.samplingsystem.dao.repository.ParamRepository;
 import com.project.samplingsystem.dao.repository.UserRepository;
-import com.project.samplingsystem.model.constant.NoteBlogV4;
+import com.project.samplingsystem.model.constant.SampleSystemConstant;
 import com.project.samplingsystem.model.entity.NBParam;
 import com.project.samplingsystem.model.entity.permission.NBSysUser;
 import com.project.samplingsystem.model.pojo.business.QqLoginModel;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.project.samplingsystem.model.constant.NoteBlogV4.Session.SESSION_ID_COOKIE;
+import static com.project.samplingsystem.model.constant.SampleSystemConstant.Session.SESSION_ID_COOKIE;
 
 /**
  * created by Wuwenbin on 2018/7/19 at 20:54
@@ -99,7 +99,7 @@ public class EntranceController extends BaseController {
                 return NBR.error("用户名已存在！");
             } else {
                 authorityService.userRegistration(nickname, bmyPass, bmyName);
-                return NBR.ok("保存成功！", NoteBlogV4.Session.LOGIN_URL);
+                return NBR.ok("保存成功！", SampleSystemConstant.Session.LOGIN_URL);
             }
         }
     }
@@ -112,13 +112,13 @@ public class EntranceController extends BaseController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpServletRequest request, @CookieValue(value = SESSION_ID_COOKIE, required = false) String uuid) {
-        request.setAttribute("qqLogin", paramRepository.findByName(NoteBlogV4.Param.QQ_LOGIN));
+        request.setAttribute("qqLogin", paramRepository.findByName(SampleSystemConstant.Param.QQ_LOGIN));
         if (StringUtils.isEmpty(uuid)) {
             return "login";
         }
         NBSysUser u = blogContext.getSessionUser(uuid);
         if (u != null) {
-            long masterRoleId = blogContext.getApplicationObj(NoteBlogV4.Session.WEBMASTER_ROLE_ID);
+            long masterRoleId = blogContext.getApplicationObj(SampleSystemConstant.Session.WEBMASTER_ROLE_ID);
             if (u.getDefaultRoleId() == masterRoleId) {
                 return "redirect:/management/index";
             } else {
@@ -131,7 +131,7 @@ public class EntranceController extends BaseController {
     @RequestMapping("/api/qq")
     public String qqLogin(HttpServletRequest request) {
         String callbackDomain = basePath(request).concat("api/qqCallback");
-        NBParam appId = paramRepository.findByName(NoteBlogV4.Param.APP_ID);
+        NBParam appId = paramRepository.findByName(SampleSystemConstant.Param.APP_ID);
         if (appId == null || StringUtils.isEmpty(appId.getValue())) {
             return "redirect:/error?errorCode=404";
         } else {
@@ -144,7 +144,7 @@ public class EntranceController extends BaseController {
         String callbackDomain = basePath(request).concat("api/qqCallback");
         NBR r = qqLoginService.doLogin(QqLoginModel.builder().callbackDomain(callbackDomain).code(code).build());
         if (r.get("code").equals(200)) {
-            blogContext.setSessionUser(request, response, (NBSysUser) r.get(NoteBlogV4.Session.LOGIN_USER));
+            blogContext.setSessionUser(request, response, (NBSysUser) r.get(SampleSystemConstant.Session.LOGIN_USER));
             return "redirect:" + r.get("data");
         } else {
             return "redirect:/error?errorCode=404";
@@ -211,11 +211,11 @@ public class EntranceController extends BaseController {
                          @CookieValue(SESSION_ID_COOKIE) String uuid) {
         blogContext.removeSessionUser(uuid);
         request.getSession().invalidate();
-        CookieUtils.deleteCookie(request, response, NoteBlogV4.Session.REMEMBER_COOKIE_NAME);
+        CookieUtils.deleteCookie(request, response, SampleSystemConstant.Session.REMEMBER_COOKIE_NAME);
         if (StringUtils.isEmpty(from)) {
             return "redirect:/";
         } else {
-            return "redirect:" + NoteBlogV4.Session.MANAGEMENT_INDEX;
+            return "redirect:" + SampleSystemConstant.Session.MANAGEMENT_INDEX;
         }
     }
 
@@ -235,11 +235,11 @@ public class EntranceController extends BaseController {
                          @CookieValue(SESSION_ID_COOKIE) String uuid) {
         blogContext.removeSessionUser(uuid);
         request.getSession().invalidate();
-        CookieUtils.deleteCookie(request, response, NoteBlogV4.Session.REMEMBER_COOKIE_NAME);
+        CookieUtils.deleteCookie(request, response, SampleSystemConstant.Session.REMEMBER_COOKIE_NAME);
         if (StringUtils.isEmpty(from)) {
             return "redirect:/";
         } else {
-            return "redirect:" + NoteBlogV4.Session.FRONTEND_INDEX;
+            return "redirect:" + SampleSystemConstant.Session.FRONTEND_INDEX;
         }
     }
 }

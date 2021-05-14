@@ -43,7 +43,9 @@ $(function () {
             '/cloudFile/add': {path: '/cloudFile/add', action: '/cloud/cloud_file_add.js'},
             '/cloudFile/edit': {path: '/cloudFile/edit', action: '/cloud/cloud_file_edit.js'},
             '/comment': {path: '/comment', action: '/comment.js'},
-            '/message': {path: '/message', action: '/message.js'}
+            '/message': {path: '/message', action: '/message.js'},
+            '/sample' : {path: '/sample', action: '/sample/sample.js'},
+            '/sample/list' : {path: '/sample/list', action: '/sample/sample.js'}
         },
         errorTemplateId: '#error'
     });

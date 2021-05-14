@@ -5,7 +5,7 @@ import com.project.samplingsystem.config.permission.NBAuth;
 import com.project.samplingsystem.dao.repository.ArticleRepository;
 import com.project.samplingsystem.dao.repository.CateRepository;
 import com.project.samplingsystem.exception.ArticleFetchFailedException;
-import com.project.samplingsystem.model.constant.NoteBlogV4;
+import com.project.samplingsystem.model.constant.SampleSystemConstant;
 import com.project.samplingsystem.model.constant.TagType;
 import com.project.samplingsystem.model.entity.NBArticle;
 import com.project.samplingsystem.model.entity.permission.NBSysResource;
@@ -88,7 +88,7 @@ public class ArticleController extends BaseController {
     @RequestMapping(value = "/article/list", method = RequestMethod.GET)
     @NBAuth(value = "management:article:list_data", remark = "博文管理页面中的数据接口", group = NBAuth.Group.AJAX)
     @ResponseBody
-    public LayuiTable<NBArticle> articleList(Pagination<NBArticle> pagination, String title, @CookieValue(NoteBlogV4.Session.SESSION_ID_COOKIE) String uuid) {
+    public LayuiTable<NBArticle> articleList(Pagination<NBArticle> pagination, String title, @CookieValue(SampleSystemConstant.Session.SESSION_ID_COOKIE) String uuid) {
         NBSysUser user = context.getSessionUser(uuid);
         Pageable pageable = getPageable(pagination);
         Page<NBArticle> page = articleService.findPageInfo(pageable, title, user.getId());
@@ -98,7 +98,7 @@ public class ArticleController extends BaseController {
     @RequestMapping("/article/create")
     @NBAuth(value = "management:article:create", remark = "发布一篇新的博文", group = NBAuth.Group.AJAX)
     @ResponseBody
-    public NBR articleCreate(@Valid NBArticle article, BindingResult result, String tagNames, @CookieValue(NoteBlogV4.Session.SESSION_ID_COOKIE) String uuid) {
+    public NBR articleCreate(@Valid NBArticle article, BindingResult result, String tagNames, @CookieValue(SampleSystemConstant.Session.SESSION_ID_COOKIE) String uuid) {
         if (result.getErrorCount() == 0) {
             NBSysUser user = context.getSessionUser(uuid);
             article.setAuthorId(user.getId());
@@ -112,7 +112,7 @@ public class ArticleController extends BaseController {
     @RequestMapping("/article/update")
     @NBAuth(value = "management:article:update", remark = "修改一篇博文", group = NBAuth.Group.AJAX)
     @ResponseBody
-    public NBR articleUpdate(@Valid NBArticle article, BindingResult result, String tagNames, @CookieValue(NoteBlogV4.Session.SESSION_ID_COOKIE) String uuid) {
+    public NBR articleUpdate(@Valid NBArticle article, BindingResult result, String tagNames, @CookieValue(SampleSystemConstant.Session.SESSION_ID_COOKIE) String uuid) {
         if (result.getErrorCount() == 0) {
             NBSysUser user = context.getSessionUser(uuid);
             article.setAuthorId(user.getId());

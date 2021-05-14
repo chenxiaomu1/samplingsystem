@@ -6,7 +6,7 @@ package com.project.samplingsystem.model.constant;
  *
  * @author wuwenbin
  */
-public interface NoteBlogV4 {
+public interface SampleSystemConstant {
 
     /**
      * 初始化的时候的一些参数key

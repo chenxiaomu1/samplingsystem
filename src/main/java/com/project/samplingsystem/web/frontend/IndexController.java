@@ -1,7 +1,7 @@
 package com.project.samplingsystem.web.frontend;
 
 import com.project.samplingsystem.dao.repository.*;
-import com.project.samplingsystem.model.constant.NoteBlogV4;
+import com.project.samplingsystem.model.constant.SampleSystemConstant;
 import com.project.samplingsystem.model.entity.NBArticle;
 import com.project.samplingsystem.model.entity.NBComment;
 import com.project.samplingsystem.model.entity.NBParam;
@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.stream.Collectors.toMap;
-import static com.project.samplingsystem.model.constant.NoteBlogV4.ParamValue.PAGE_MODERN_BUTTON;
-import static com.project.samplingsystem.model.constant.NoteBlogV4.ParamValue.PAGE_MODERN_DEFAULT;
+import static com.project.samplingsystem.model.constant.SampleSystemConstant.ParamValue.PAGE_MODERN_BUTTON;
+import static com.project.samplingsystem.model.constant.SampleSystemConstant.ParamValue.PAGE_MODERN_DEFAULT;
 
 /**
  * created by Wuwenbin on 2018/7/31 at 21:33
@@ -61,7 +61,7 @@ public class IndexController extends BaseController {
 
     @RequestMapping(value = {"", "/index"})
     public String index(Model model) {
-        String pageModern = paramRepository.findByName(NoteBlogV4.Param.PAGE_MODERN).getValue();
+        String pageModern = paramRepository.findByName(SampleSystemConstant.Param.PAGE_MODERN).getValue();
         model.addAttribute("articleCount", articleRepository.countByDraft(false));
         model.addAttribute("cateList", cateRepository.findAll());
         return handleStyle(
@@ -87,8 +87,8 @@ public class IndexController extends BaseController {
         orders.put("top", "desc");
         orders.put("post", "desc");
         Sort sort = getJpaSortWithOther(pagination, orders);
-        NBParam pageParam = paramRepository.findByName(NoteBlogV4.Param.BLOG_INDEX_PAGE_SIZE);
-        NBParam modernParam = paramRepository.findByName(NoteBlogV4.Param.PAGE_MODERN);
+        NBParam pageParam = paramRepository.findByName(SampleSystemConstant.Param.BLOG_INDEX_PAGE_SIZE);
+        NBParam modernParam = paramRepository.findByName(SampleSystemConstant.Param.PAGE_MODERN);
         int modern = Integer.valueOf(modernParam.getValue());
         int pageSize = Integer.valueOf(pageParam.getValue());
         pageSize = modern == 0 ? pageSize > 10 ? pageSize : pagination.getLimit() : pagination.getLimit();

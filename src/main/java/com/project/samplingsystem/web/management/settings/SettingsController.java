@@ -6,7 +6,7 @@ import com.project.samplingsystem.config.application.NBContext;
 import com.project.samplingsystem.config.permission.NBAuth;
 import com.project.samplingsystem.dao.repository.ParamRepository;
 import com.project.samplingsystem.dao.repository.UserRepository;
-import com.project.samplingsystem.model.constant.NoteBlogV4;
+import com.project.samplingsystem.model.constant.SampleSystemConstant;
 import com.project.samplingsystem.model.entity.NBParam;
 import com.project.samplingsystem.model.entity.permission.NBSysResource;
 import com.project.samplingsystem.model.entity.permission.NBSysUser;
@@ -79,7 +79,7 @@ public class SettingsController extends BaseController {
 
     @RequestMapping("/settings/profile")
     @NBAuth(value = "management:settings:profile", remark = "管理员个人信息设置", group = NBAuth.Group.ROUTER, type = NBSysResource.ResType.NAV_LINK)
-    public String settingsProfile(Model model, @CookieValue(NoteBlogV4.Session.SESSION_ID_COOKIE) String uuid) {
+    public String settingsProfile(Model model, @CookieValue(SampleSystemConstant.Session.SESSION_ID_COOKIE) String uuid) {
         model.addAttribute("loginUser", context.getSessionUser(uuid));
         return "management/settings/profile";
     }
@@ -120,7 +120,7 @@ public class SettingsController extends BaseController {
     @RequestMapping(value = "/settings/profile/update", method = RequestMethod.POST)
     @NBAuth(value = "management:settings:profile_update", remark = "网站管理员修改操作", group = NBAuth.Group.AJAX)
     @ResponseBody
-    public NBR updateProfile(String nickname, String email, String password1, String password2, @CookieValue(NoteBlogV4.Session.SESSION_ID_COOKIE) String uuid, String avatar) {
+    public NBR updateProfile(String nickname, String email, String password1, String password2, @CookieValue(SampleSystemConstant.Session.SESSION_ID_COOKIE) String uuid, String avatar) {
         NBSysUser loginUser = context.getSessionUser(uuid);
         if (StrUtil.isNotEmpty(nickname)) {
             userRepository.updateUserNickname(loginUser.getId(), nickname);

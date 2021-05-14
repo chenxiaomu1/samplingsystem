@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
 import com.project.samplingsystem.dao.repository.ParamRepository;
-import com.project.samplingsystem.model.constant.NoteBlogV4;
+import com.project.samplingsystem.model.constant.SampleSystemConstant;
 import com.project.samplingsystem.model.entity.NBArticle;
 import com.project.samplingsystem.model.entity.permission.NBSysUser;
 import com.project.samplingsystem.util.NBUtils;
@@ -30,11 +30,11 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public void sendNoticeMail(String site, NBArticle article, String comment) {
-        String host = paramRepository.findByName(NoteBlogV4.Param.MAIL_SMPT_SERVER_ADDR).getValue();
-        String port = paramRepository.findByName(NoteBlogV4.Param.MAIL_SMPT_SERVER_PORT).getValue();
-        String from = paramRepository.findByName(NoteBlogV4.Param.MAIL_SERVER_ACCOUNT).getValue();
-        String user = paramRepository.findByName(NoteBlogV4.Param.MAIL_SENDER_NAME).getValue();
-        String pass = paramRepository.findByName(NoteBlogV4.Param.MAIL_SERVER_PASSWORD).getValue();
+        String host = paramRepository.findByName(SampleSystemConstant.Param.MAIL_SMPT_SERVER_ADDR).getValue();
+        String port = paramRepository.findByName(SampleSystemConstant.Param.MAIL_SMPT_SERVER_PORT).getValue();
+        String from = paramRepository.findByName(SampleSystemConstant.Param.MAIL_SERVER_ACCOUNT).getValue();
+        String user = paramRepository.findByName(SampleSystemConstant.Param.MAIL_SENDER_NAME).getValue();
+        String pass = paramRepository.findByName(SampleSystemConstant.Param.MAIL_SERVER_PASSWORD).getValue();
         if (StrUtil.isNotEmpty(host)
                 && StrUtil.isNotEmpty(port)
                 && StrUtil.isNotEmpty(from)

@@ -21,8 +21,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
-import static com.project.samplingsystem.model.constant.NoteBlogV4.Init.INIT_NOT;
-import static com.project.samplingsystem.model.constant.NoteBlogV4.Init.INIT_STATUS;
+import static com.project.samplingsystem.model.constant.SampleSystemConstant.Init.INIT_NOT;
+import static com.project.samplingsystem.model.constant.SampleSystemConstant.Init.INIT_STATUS;
 import static com.project.samplingsystem.model.entity.permission.NBSysMenu.MenuType.LEAF;
 import static com.project.samplingsystem.model.entity.permission.NBSysMenu.MenuType.PARENT;
 
@@ -61,7 +61,7 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
         if (nbParam == null || StringUtils.isEmpty(nbParam.getValue())) {
             throw new RuntimeException("初始化参数有误，未找到 init_status 参数！");
         } else if (nbParam.getValue().equals(INIT_NOT) && cnt == 1 && rootCnt == 1) {
-            log.info("个人博客」App 正在初始化菜单，请稍后...");
+            log.info("正在初始化菜单，请稍后...");
             Object[][] folderMenus = new Object[][]{
                     {"权限管理", "layui-icon layui-icon-auz", new String[][]{
                             {"/management/menu", "菜单管理", "fa fa-list-ul"}
@@ -102,7 +102,7 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
                     }}
                     ,
                     {"采样功能","layui-icon layui-icon-edit", new String[][]{
-                            {"/management/sampling/list","采样管理"}
+                            {"management/sample/page","采样管理","fa fa-file-o"}
                     }}
 
             };
@@ -111,7 +111,7 @@ public class MenuListener implements ApplicationListener<ApplicationReadyEvent> 
 
         }
 //        hideAuthMenu();
-        log.info("「个人博客」App 初始化菜单完毕");
+        log.info("初始化菜单完毕");
     }
 
     /**

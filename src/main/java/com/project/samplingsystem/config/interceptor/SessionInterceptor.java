@@ -4,7 +4,7 @@ import cn.hutool.core.codec.Base64;
 import com.project.samplingsystem.dao.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import com.project.samplingsystem.config.application.NBContext;
-import com.project.samplingsystem.model.constant.NoteBlogV4;
+import com.project.samplingsystem.model.constant.SampleSystemConstant;
 import com.project.samplingsystem.model.entity.permission.NBSysUser;
 import com.project.samplingsystem.util.CookieUtils;
 import com.project.samplingsystem.util.NBUtils;
@@ -33,17 +33,17 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Cookie cookie = CookieUtils.getCookie(request, NoteBlogV4.Session.SESSION_ID_COOKIE);
+        Cookie cookie = CookieUtils.getCookie(request, SampleSystemConstant.Session.SESSION_ID_COOKIE);
         if (cookie != null) {
             String sessionId = cookie.getValue();
             NBSysUser sessionUser = blogContext.getSessionUser(sessionId);
             if (sessionUser == null) {
-                Cookie rememberCookie = CookieUtils.getCookie(request, NoteBlogV4.Session.REMEMBER_COOKIE_NAME);
+                Cookie rememberCookie = CookieUtils.getCookie(request, SampleSystemConstant.Session.REMEMBER_COOKIE_NAME);
                 if (rememberCookie != null) {
                     String userString = rememberCookie.getValue();
                     try {
-                        String username = userString.split(NoteBlogV4.Session.COOKIE_SPLIT)[0];
-                        String password = userString.split(NoteBlogV4.Session.COOKIE_SPLIT)[1];
+                        String username = userString.split(SampleSystemConstant.Session.COOKIE_SPLIT)[0];
+                        String password = userString.split(SampleSystemConstant.Session.COOKIE_SPLIT)[1];
                         NBSysUser cookieUser = userRepository.findByUsernameAndPasswordAndEnableTrue(Base64.decodeStr(username), password);
                         if (cookieUser != null) {
                             blogContext.setSessionUser(request, response, cookieUser);
@@ -61,7 +61,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
                 return true;
             }
         } else {
-            response.sendRedirect(NoteBlogV4.Session.LOGIN_URL);
+            response.sendRedirect(SampleSystemConstant.Session.LOGIN_URL);
             return false;
         }
     }

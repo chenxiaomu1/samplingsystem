@@ -1,6 +1,6 @@
 package com.project.samplingsystem.dao.repository;
 
-import com.project.samplingsystem.model.entity.Sampling;
+import com.project.samplingsystem.model.entity.Sample;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author chen
  */
-public interface SamplingRepository extends JpaSpecificationExecutor<Sampling> , JpaRepository<Sampling, Long> {
+public interface SamplingRepository extends JpaSpecificationExecutor<Sample> , JpaRepository<Sample, Long> {
 
-    List<Sampling> findByUserId(String userId);
+    List<Sample> findByUserId(String userId);
 }

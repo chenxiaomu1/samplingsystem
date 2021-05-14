@@ -111,15 +111,15 @@ public class UserController extends BaseController {
         }
     }
 
-    @RequestMapping("/nickname/update")
+    @RequestMapping("/username/update")
     @ResponseBody
-    @NBAuth(value = "management:user:nickname_update", remark = "修改用户昵称信息", group = NBAuth.Group.AJAX)
-    public NBR nicknameUpdate(Long userId, String nickname) {
-        if (StringUtils.isEmpty(nickname)) {
+    @NBAuth(value = "management:user:username_update", remark = "修改用户名称", group = NBAuth.Group.AJAX)
+    public NBR nicknameUpdate(Long userId, String username) {
+        if (StringUtils.isEmpty(username)) {
             return NBR.error("昵称不能为空！");
         } else {
             return ajaxDone(
-                    () -> userRepository.updateUserNickname(userId, nickname) > 0,
+                    () -> userRepository.updateUserNickname(userId, username) > 0,
                     () -> "修改用户昵称"
             );
         }

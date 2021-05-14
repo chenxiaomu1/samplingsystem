@@ -14,7 +14,7 @@ import com.qiniu.util.Auth;
 import lombok.extern.slf4j.Slf4j;
 import com.project.samplingsystem.model.constant.LayUploader;
 import com.project.samplingsystem.model.constant.NkUploader;
-import com.project.samplingsystem.model.constant.NoteBlogV4;
+import com.project.samplingsystem.model.constant.SampleSystemConstant;
 import com.project.samplingsystem.model.constant.Upload;
 import com.project.samplingsystem.model.entity.NBUpload;
 import com.project.samplingsystem.model.pojo.framework.NBR;
@@ -58,7 +58,7 @@ public class QiniuUploadServiceImpl implements UploadService<Object> {
             if (res != null && res.isOK()) {
                 JSONObject respObj = JSONUtil.parseObj(res.bodyString());
                 String generateFileName = respObj.getStr("key");
-                String qiniuDomain = paramRepository.findByName(NoteBlogV4.Param.QINIU_DOMAIN).getValue();
+                String qiniuDomain = paramRepository.findByName(SampleSystemConstant.Param.QINIU_DOMAIN).getValue();
                 log.info("上传至七牛云服务器成功！，文件：[{}]", generateFileName);
                 extra.accept(s);
                 String src = qiniuDomain + "/" + generateFileName;
@@ -94,7 +94,7 @@ public class QiniuUploadServiceImpl implements UploadService<Object> {
             if (res != null && res.isOK()) {
                 JSONObject respObj = JSONUtil.parseObj(res.bodyString());
                 String generateFileName = respObj.getStr("key");
-                String qiniuDomain = paramRepository.findByName(NoteBlogV4.Param.QINIU_DOMAIN).getValue();
+                String qiniuDomain = paramRepository.findByName(SampleSystemConstant.Param.QINIU_DOMAIN).getValue();
                 extra.accept(t);
                 String src = qiniuDomain + "/" + generateFileName;
                 log.info("上传至七牛云服务器成功！，文件：[{}]", generateFileName);

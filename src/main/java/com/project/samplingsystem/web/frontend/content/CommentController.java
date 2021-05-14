@@ -26,7 +26,7 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.project.samplingsystem.model.constant.NoteBlogV4.Param.ALL_COMMENT_OPEN;
+import static com.project.samplingsystem.model.constant.SampleSystemConstant.Param.ALL_COMMENT_OPEN;
 
 /**
  * created by Wuwenbin on 2018/2/8 at 18:54

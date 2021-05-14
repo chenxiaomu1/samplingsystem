@@ -36,6 +36,9 @@ public class NBSysUser implements Serializable {
     @Column(length = 20)
     private String username;
 
+    @Column(length = 20)
+    private String accountNo;
+
     @Column(length = 50)
     private String nickname;
 

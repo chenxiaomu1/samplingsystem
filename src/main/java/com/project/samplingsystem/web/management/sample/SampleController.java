@@ -1,17 +1,20 @@
-package com.project.samplingsystem.web.management.sampling;
+package com.project.samplingsystem.web.management.sample;
 
 import com.project.samplingsystem.config.permission.NBAuth;
 import com.project.samplingsystem.dao.repository.SamplingRepository;
-import com.project.samplingsystem.model.entity.Sampling;
+import com.project.samplingsystem.model.entity.Sample;
 import com.project.samplingsystem.model.entity.permission.NBSysResource;
+import com.project.samplingsystem.model.pojo.framework.LayuiTable;
 import com.project.samplingsystem.model.pojo.framework.Pagination;
 import com.project.samplingsystem.web.BaseController;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,50 +32,40 @@ import java.util.List;
  * @author chen
  */
 @Controller
-@RequestMapping("/management/sampling")
-public class SamplingController extends BaseController {
+@RequestMapping("/management/sample")
+public class SampleController extends BaseController {
 
     private final SamplingRepository samplingRepository;
 
     @Autowired
-    public SamplingController(SamplingRepository samplingRepository) {
+    public SampleController(SamplingRepository samplingRepository) {
         this.samplingRepository = samplingRepository;
     }
 
 
-    @RequestMapping(value = "/page")
-    @ResponseBody
-    @NBAuth(value = "management:sampling:page", remark = "采样页面列表", group = NBAuth.Group.ROUTER, type = NBSysResource.ResType.NAV_LINK)
+    @RequestMapping
+    @NBAuth(value = "management:sample:page", remark = "采样页面列表", group = NBAuth.Group.ROUTER, type = NBSysResource.ResType.NAV_LINK)
     public String Sample() {
-        return "/management/sampling/list";
+        return "management/sample/sample";
     }
 
-    @RequestMapping(value = "/list")
+    @RequestMapping("/list")
     @ResponseBody
     @NBAuth(value = "management:sampling:list", remark = "采样页面分页数据", group = NBAuth.Group.AJAX)
-    public List<Sampling> listSampling(Pagination<Sampling> catePage, @RequestParam(value = "sampleName") String sampleName) {
+    public LayuiTable<Sample> listSample(Pagination<Sample> catePage, String clearComment) {
         Pageable pageable = PageRequest.of(catePage.getPage() - 1, catePage.getLimit());
-        List<Sampling> samplings = samplingRepository.findAll(new Specification<Sampling>() {
+        Page<Sample> samples = samplingRepository.findAll(new Specification<Sample>() {
             @Override
-            public Predicate toPredicate(Root<Sampling> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<Sample> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 List<Predicate> predicates = new ArrayList<>();
-                if (StringUtils.isNotBlank(sampleName)) {
-                    predicates.add(cb.equal(root.get("sampleName"), sampleName));
+                if (StringUtils.isNotBlank(clearComment)) {
+                    predicates.add(cb.like(root.get("sampleName"), clearComment));
                 }
                 return query.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
             }
-        });
+        },pageable);
 
-        return samplings;
+        return layuiTable(samples, pageable);
     }
 
-//    @RequestMapping("/list")
-//    @ResponseBody
-//    @NBAuth(value = "management:cate:list", remark = "分类管理分页数据", group = NBAuth.Group.AJAX)
-//    public LayuiTable<NBCate> cateList(Pagination<NBCate> catePage) {
-//        //jpa分页是从0开始
-//        Pageable pageable = PageRequest.of(catePage.getPage() - 1, catePage.getLimit());
-//        Page<NBCate> page = cateRepository.findAll(pageable);
-//        return layuiTable(page, pageable);
-//    }
 }

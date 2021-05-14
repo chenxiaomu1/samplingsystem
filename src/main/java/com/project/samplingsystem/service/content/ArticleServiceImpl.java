@@ -8,7 +8,7 @@ import com.project.samplingsystem.dao.repository.ArticleRepository;
 import com.project.samplingsystem.dao.repository.TagReferRepository;
 import com.project.samplingsystem.dao.repository.TagRepository;
 import lombok.extern.slf4j.Slf4j;
-import com.project.samplingsystem.model.constant.NoteBlogV4;
+import com.project.samplingsystem.model.constant.SampleSystemConstant;
 import com.project.samplingsystem.model.constant.TagType;
 import com.project.samplingsystem.model.entity.NBArticle;
 import com.project.samplingsystem.model.entity.NBCate;
@@ -175,7 +175,7 @@ public class ArticleServiceImpl implements ArticleService {
      */
     private static void setArticleSummaryAndTxt(NBArticle article) {
         ParamService paramService = NBUtils.getBean(ParamService.class);
-        int summaryLength = Integer.valueOf(paramService.getValueByName(NoteBlogV4.Param.ARTICLE_SUMMARY_WORDS_LENGTH));
+        int summaryLength = Integer.valueOf(paramService.getValueByName(SampleSystemConstant.Param.ARTICLE_SUMMARY_WORDS_LENGTH));
         String clearContent = HtmlUtil.cleanHtmlTag(StrUtil.trim(article.getContent()));
         clearContent = StringUtils.trimAllWhitespace(clearContent);
         clearContent = clearContent.substring(0, clearContent.length() < summaryLength ? clearContent.length() : summaryLength);

@@ -5,7 +5,7 @@ import com.project.samplingsystem.dao.repository.*;
 import com.project.samplingsystem.exception.InitException;
 import com.project.samplingsystem.config.application.NBContext;
 import com.project.samplingsystem.model.entity.permission.*;
-import com.project.samplingsystem.model.constant.NoteBlogV4;
+import com.project.samplingsystem.model.constant.SampleSystemConstant;
 import com.project.samplingsystem.model.entity.permission.pk.UserRoleKey;
 import com.project.samplingsystem.model.pojo.business.LayuiXTree;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +60,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 
     @Override
     public void initMasterAccount(String username, String password, String email) {
-        Long masterRoleId = blogContext.getApplicationObj(NoteBlogV4.Session.WEBMASTER_ROLE_ID);
+        Long masterRoleId = blogContext.getApplicationObj(SampleSystemConstant.Session.WEBMASTER_ROLE_ID);
         if (masterRoleId == null) {
             throw new InitException("初始化权限系统出错，管理员角色未初始化！");
         }
@@ -76,7 +76,7 @@ public class AuthorityServiceImpl implements AuthorityService {
         NBSysUser u = userRepository.saveAndFlush(user);
         if (u != null) {
             paramRepository.updateInitParam("1", "is_set_master");
-            paramRepository.updateValueByName(NoteBlogV4.Param.MAIL_SENDER_NAME, u.getNickname());
+            paramRepository.updateValueByName(SampleSystemConstant.Param.MAIL_SENDER_NAME, u.getNickname());
             UserRoleKey urk = new UserRoleKey();
             urk.setRoleId(masterRoleId);
             urk.setUserId(u.getId());

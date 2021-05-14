@@ -1,6 +1,6 @@
 package com.project.samplingsystem.config.application;
 
-import com.project.samplingsystem.model.constant.NoteBlogV4;
+import com.project.samplingsystem.model.constant.SampleSystemConstant;
 import com.project.samplingsystem.model.entity.permission.NBSysUser;
 import com.project.samplingsystem.util.CookieUtils;
 import com.project.samplingsystem.util.NBUtils;
@@ -30,11 +30,11 @@ public class NBContext extends ConcurrentHashMap<String, NBSession> {
                 .expired(false)
                 .host(NBUtils.getRemoteAddress(request))
                 .build();
-        Cookie cookie = CookieUtils.getCookie(request, NoteBlogV4.Session.SESSION_ID_COOKIE);
+        Cookie cookie = CookieUtils.getCookie(request, SampleSystemConstant.Session.SESSION_ID_COOKIE);
         if (cookie != null) {
             session.setId(cookie.getValue());
         }
-        CookieUtils.setCookie(response, NoteBlogV4.Session.SESSION_ID_COOKIE, session.getId(), -1);
+        CookieUtils.setCookie(response, SampleSystemConstant.Session.SESSION_ID_COOKIE, session.getId(), -1);
         put(session.getId(), session);
     }
 

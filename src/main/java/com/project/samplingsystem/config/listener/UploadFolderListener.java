@@ -3,7 +3,7 @@ package com.project.samplingsystem.config.listener;
 import com.project.samplingsystem.dao.repository.ParamRepository;
 import com.project.samplingsystem.exception.UploadPathMissException;
 import lombok.extern.slf4j.Slf4j;
-import com.project.samplingsystem.model.constant.NoteBlogV4;
+import com.project.samplingsystem.model.constant.SampleSystemConstant;
 import com.project.samplingsystem.model.constant.Upload;
 import com.project.samplingsystem.model.entity.NBParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class UploadFolderListener implements ApplicationListener<ApplicationRead
      * @throws Exception
      */
     private void initUploadFolder() {
-        NBParam param = paramRepository.findByName(NoteBlogV4.Param.UPLOAD_TYPE);
+        NBParam param = paramRepository.findByName(SampleSystemConstant.Param.UPLOAD_TYPE);
         String value = param.getValue();
         if (Upload.Method.LOCAL.name().equalsIgnoreCase(value)) {
             String uploadPathKey = "noteblog.upload.path";

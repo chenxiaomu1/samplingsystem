@@ -11,7 +11,7 @@ import org.springframework.util.StringUtils;
 import javax.transaction.Transactional;
 import java.util.Map;
 
-import static com.project.samplingsystem.model.constant.NoteBlogV4.Param.STATISTIC_ANALYSIS;
+import static com.project.samplingsystem.model.constant.SampleSystemConstant.Param.STATISTIC_ANALYSIS;
 
 /**
  * created by Wuwenbin on 2018/7/17 at 15:52

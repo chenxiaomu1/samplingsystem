@@ -128,7 +128,7 @@
 
     // DISPLAY CONSTRUCTOR
 
-    // The display handles the DOM integration, both for input reading
+    // The display handles the DOM integration, both for` input reading
     // and content drawing. It holds references to DOM nodes and
     // display-related state.
 

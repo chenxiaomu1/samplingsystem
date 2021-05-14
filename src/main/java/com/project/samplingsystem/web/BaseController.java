@@ -3,7 +3,7 @@ package com.project.samplingsystem.web;
 import com.github.pagehelper.Page;
 import lombok.extern.slf4j.Slf4j;
 import com.project.samplingsystem.dao.repository.ParamRepository;
-import com.project.samplingsystem.model.constant.NoteBlogV4;
+import com.project.samplingsystem.model.constant.SampleSystemConstant;
 import com.project.samplingsystem.model.pojo.framework.LayuiTable;
 import com.project.samplingsystem.model.pojo.framework.NBR;
 import com.project.samplingsystem.model.pojo.framework.Pagination;
@@ -24,8 +24,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import static com.project.samplingsystem.model.constant.NoteBlogV4.ParamValue.STYLE_NORMAL;
-import static com.project.samplingsystem.model.constant.NoteBlogV4.ParamValue.STYLE_SIMPLE;
+import static com.project.samplingsystem.model.constant.SampleSystemConstant.ParamValue.STYLE_NORMAL;
+import static com.project.samplingsystem.model.constant.SampleSystemConstant.ParamValue.STYLE_SIMPLE;
 
 /**
  * created by Wuwenbin on 2018/7/17 at 17:09
@@ -48,10 +48,10 @@ public abstract class BaseController {
     }
 
     protected static String handleStyle(String simple, Supplier<String> normalOrOther, ParamRepository paramRepository) {
-        String style = CacheUtils.getParamCache().get(NoteBlogV4.Param.BLOG_STYLE, String.class);
+        String style = CacheUtils.getParamCache().get(SampleSystemConstant.Param.BLOG_STYLE, String.class);
         if (StringUtils.isEmpty(style)) {
-            style = paramRepository.findByName(NoteBlogV4.Param.BLOG_STYLE).getValue();
-            CacheUtils.getParamCache().put(NoteBlogV4.Param.BLOG_STYLE, style);
+            style = paramRepository.findByName(SampleSystemConstant.Param.BLOG_STYLE).getValue();
+            CacheUtils.getParamCache().put(SampleSystemConstant.Param.BLOG_STYLE, style);
         }
         if (StringUtils.isEmpty(style)) {
             throw new RuntimeException("页面风格未设定！");

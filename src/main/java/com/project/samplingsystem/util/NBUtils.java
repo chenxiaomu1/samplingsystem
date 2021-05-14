@@ -7,7 +7,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.project.samplingsystem.config.application.NBContext;
 import com.project.samplingsystem.exception.MethodNotMatchException;
-import com.project.samplingsystem.model.constant.NoteBlogV4;
+import com.project.samplingsystem.model.constant.SampleSystemConstant;
 import com.project.samplingsystem.model.constant.Upload;
 import com.project.samplingsystem.model.entity.permission.NBSysUser;
 import com.project.samplingsystem.model.pojo.business.Base64MultipartFile;
@@ -103,7 +103,7 @@ public class NBUtils implements ApplicationContextAware {
      * @return
      */
     public static NBSysUser getSessionUser() {
-        Cookie cookie = CookieUtils.getCookie(getCurrentRequest(), NoteBlogV4.Session.SESSION_ID_COOKIE);
+        Cookie cookie = CookieUtils.getCookie(getCurrentRequest(), SampleSystemConstant.Session.SESSION_ID_COOKIE);
         if (cookie != null) {
             String sessionId = cookie.getValue();
             return applicationContext.getBean(NBContext.class).getSessionUser(sessionId);
@@ -275,7 +275,7 @@ public class NBUtils implements ApplicationContextAware {
      */
     @SuppressWarnings("unchecked")
     public static <T> UploadService<T> getUploadServiceByConfig() {
-        final String name = NoteBlogV4.Param.UPLOAD_TYPE;
+        final String name = SampleSystemConstant.Param.UPLOAD_TYPE;
         final String local = "local", qiniu = "qiniu";
         String config = applicationContext.getBean(ParamService.class).getValueByName(name);
         if (config != null) {
