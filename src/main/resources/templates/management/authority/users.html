@@ -9,7 +9,7 @@
 </div>
 <div class="layui-fluid layadmin-container" id="NB-users-tab">
     <div class="layui-row layui-col-space10">
-        <div class="layui-col-sm8">
+        <div class="layui-col-sm12">
             <div class="layui-card">
                 <div class="layui-form layui-card-header layuiadmin-card-header-auto">
                     <div id="user-table-search" class="layui-form">
@@ -44,26 +44,26 @@
                 </div>
             </div>
         </div>
-        <div class="layui-col-sm4">
-            <div class="layui-form">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        用户 <span id="NB-users-tab-selected" style="color: #5FB878;">请在左侧勾选用户</span> 的角色信息
-                    </div>
-                    <div class="layui-card-body">
-                        <select name="roleIds" xm-select="roles" xm-select-search="" xm-select-search-type="dl">
-                        </select>
-                    </div>
-                    <div class="layui-card-footer">
-                        <div class="layui-inline">
-                            <button class="layui-btn layuiadmin-btn-forum-list" type="submit" lay-submit=""
-                                    lay-filter="submitUserRoles">提交更改
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!--        <div class="layui-col-sm4">-->
+<!--            <div class="layui-form">-->
+<!--                <div class="layui-card">-->
+<!--                    <div class="layui-card-header">-->
+<!--                        用户 <span id="NB-users-tab-selected" style="color: #5FB878;">请在左侧勾选用户</span> 的角色信息-->
+<!--                    </div>-->
+<!--                    <div class="layui-card-body">-->
+<!--                        <select name="roleIds" xm-select="roles" xm-select-search="" xm-select-search-type="dl">-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                    <div class="layui-card-footer">-->
+<!--                        <div class="layui-inline">-->
+<!--                            <button class="layui-btn layuiadmin-btn-forum-list" type="submit" lay-submit=""-->
+<!--                                    lay-filter="submitUserRoles">提交更改-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </div>
 
@@ -71,7 +71,8 @@
     <a class="layui-btn layui-btn-sm" lay-event="del">删除</a>
 </script>
 
-<script type="text/html" id="addUserPage">
+<script type="text/html" id="addUserPage" >
+
     <div class="layui-container layui-dialog" style="width: 420px;">
         <div class="layui-row">
             <div class="layui-form">
@@ -96,17 +97,14 @@
                                placeholder="请输入密码" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-<!--                <div class="layui-form-item">-->
-<!--                    <label class="layui-form-label">所属角色</label>-->
-<!--                    <div class="layui-input-block">-->
-<!--                        <select name="userRoleId" lay-verify="required" lay-search>-->
-<!--                            <option value="">请选择</option>-->
-<!--                            <option th:each="cate,cateStat:${cateList}" th:value="${cate.id}"-->
-<!--                                    th:text="${cate.cnName}"-->
-<!--                                    th:selected="${cate.id==editArticle.cateId}"></option>-->
-<!--                        </select>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">所属角色</label>
+                    <div class="layui-input-block" name="selectRole">
+                        <select name="defaultRoleId" lay-verify="required" id="roleSelect">
+                            <option value="0">请选择</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -121,6 +119,20 @@
     <input type="radio" name="userRadioCheck" value="{{d.id}}" lay-even="userRadioCheck"/>
 </script>
 
+<script type="text/html" id="roleBar">
+    {{#if (d.defaultRoleId === 1) { }}
+    <span>网站管理员</span>
+    {{# }else if(d.defaultRoleId === 2){ }}
+    <span>采样员</span>
+    {{# }else if(d.defaultRoleId === 3){ }}
+    <span>制样员</span>
+    {{# }else if(d.defaultRoleId === 4){ }}
+    <span>化验员</span>
+    {{# } }}
+</script>
+
+<script src="/static/plugins/md5/md5.min.js"></script>
+
 <script th:inline="javascript">
     layui.use(['form', 'table', 'element', 'formSelects'], function () {
         var table = layui.table
@@ -129,6 +141,7 @@
             , formSelects = layui.formSelects;
         element.render();
         formSelects.render();
+        form.render();
 
         var userTable = table.render({
             elem: '#userTable'
@@ -148,6 +161,7 @@
                 //         return '<img  src="' + d.avatar + '" style="width: 30px;height: 30px;">';
                 //     }
                 // }
+                    ,{field: 'cnName', title: '角色', sort: true,toolbar: '#roleBar'}
                     , {
                     field: 'create', title: '注册日期', sort: true, templet: function (d) {
                         return BMY.dateFormatter(d.create);
@@ -255,22 +269,40 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-
         $(".layui-btn[data-type=addUser]").on("click", function () {
             var index = layer.confirm($("#addUserPage").html(), {
                 title: '新增用户'
                 , type: 1
-                , area: '480px'
+                , area: ['auto','550px']
+                , success: function(){
+                    BMY.ajax(BMY.url.prefix + '/users/roles/list',
+                        {},
+                        function (data) {
+                            console.log(data);
+                            // for(let item of data){
+                            //     console.log("返回:" + item.cnName);
+                            //     $("#roleSelect").append("<option value="+ item.id +">"+ item.cnName + "</option>");
+                            //     form.render('select');
+                            // }
+                            $.each(data,function (index,item) {
+                                console.log("返回:" + item);
+                                $('#roleSelect').append(new Option(item.cnName,item.id));
+                            });
+                            form.render('select');
+                        }
+                    );
+                }
             }, function () {
                 BMY.ajax(BMY.url.prefix + "/sample/createUser", {
                     username: $("input.layui-input[name=username]").val()
                     , accountNo: $("input.layui-input[name=accountNo]").val()
-                    , password: $("input.layui-input[name=password]").val()
+                    , password: md5($("input.layui-input[name=password]").val())
+                    , defaultRoleId: $("#roleSelect option:selected").val()
                 }, function (json) {
                     BMY.okHandle(json, index, "user-table");
                 })
             });
-        });
 
+        });
     });
 </script>

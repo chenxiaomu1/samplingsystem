@@ -4,6 +4,7 @@ import com.project.samplingsystem.dao.repository.RoleRepository;
 import com.project.samplingsystem.dao.repository.UserRepository;
 import com.project.samplingsystem.dao.repository.UserRoleRepository;
 import com.project.samplingsystem.model.constant.SampleSystemConstant;
+import com.project.samplingsystem.model.entity.permission.NBSysRole;
 import com.project.samplingsystem.model.entity.permission.NBSysUser;
 import com.project.samplingsystem.model.entity.permission.NBSysUserRole;
 import com.project.samplingsystem.model.entity.permission.pk.UserRoleKey;
@@ -18,6 +19,7 @@ import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.List;
 
 /**
  * created by Wuwenbin on 2018/7/29 at 1:06
@@ -76,6 +78,7 @@ public class UsersServiceImpl implements UsersService {
     public void updateUserRolesStr(Long userId, String roleNames) {
         userRoleRepository.deleteRolesByUserId(userId);
         String[] roleNameArray = roleNames.split(",");
+
         for (String roleName : roleNameArray) {
             long rId = roleRepository.findByName(roleName).getId();
             UserRoleKey urk = new UserRoleKey();
@@ -84,6 +87,10 @@ public class UsersServiceImpl implements UsersService {
             NBSysUserRole ur = NBSysUserRole.builder().pk(urk).build();
             userRoleRepository.saveAndFlush(ur);
         }
+
+        Long roleId = roleRepository.findByName(roleNameArray[0]).getId();
+        NBSysUser one = userRepository.getOne(userId);
+        one.setDefaultRoleId(roleId);
     }
 
     @Override
